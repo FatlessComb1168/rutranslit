@@ -1,12 +1,11 @@
-import colorama;
-from colorama import Fore, Style;
-import datetime;
+from colorama import Fore, Style, init;
 from datetime import datetime;
-import os;
-import sys;
-import pyperclip;
+from os import system;
+from re import split;
+from pyperclip import copy;
 import ctypes;
-colorama.init();
+
+init();
 ctypes.windll.kernel32.SetConsoleTitleW('Rutranslit');
 
 check_1 = ['Э', 'Ж', 'Ё', 'ТСЯ', 'Щ', 'Ч', 'Ш', 'Ю', 'Я', 'Ц', 'Ь', 'Ъ'];
@@ -48,17 +47,24 @@ def dt():
 def tol():
     global t;
     print(Fore.YELLOW + 'Введите текст на русском:' + Style.RESET_ALL);
-    t = input();
-    
-    check = t.upper();
-    if t == check:
-        for i in range(len(check_1)):
-            if check_1[i] in t:
-                t = t.replace(check_1[i],check_2[i]);
+    t1 = input();
+    t1 = split(r'( .)',t1);
 
-    for i in range(len(ru)):
-        if ru[i] in t:
-            t = t.replace(ru[i],lat[i]);
+
+    for i in t1:
+        i2 = i;
+        check = i.upper();
+        if i == check:
+            for i1 in range(len(check_1)):
+                i2 = i2.replace(check_1[i1],check_2[i1]);
+
+        for i1 in range(len(ru)):
+            i2 = i2.replace(ru[i1],lat[i1]);
+        t1[t1.index(i)] = i2;
+
+    t = '';
+    for i in t1:
+        t += i;
 
 def frl():
     global t;
@@ -77,7 +83,7 @@ def frl():
 
 def ot1():
     global t;
-    pyperclip.copy(t);
+    copy(t);
     print(Fore.YELLOW + '\nВерсия на латинице:\n' + Style.RESET_ALL + t);
     print(Fore.YELLOW)
     print('\nТекст скопирован. Нажмите Enter, чтобы продолжить.');
@@ -85,7 +91,7 @@ def ot1():
 
 def ot2():
     global t;
-    pyperclip.copy(t);
+    copy(t);
     print(Fore.YELLOW + '\nОригинал:\n' + Style.RESET_ALL + t);
     print(Fore.YELLOW)
     print('\nТекст скопирован. Нажмите Enter, чтобы продолжить.');
@@ -102,26 +108,31 @@ def launch():
 while True:
     launch();
     a = input();
-    os.system('cls');
+    system('cls');
+
     if a == '0':
         tol();
         dt();
         history = history + date + t + '\n\n';
         ot1();
+
     if a == '1':
         frl();
         dt();
         history = history + date + t + '\n\n';
         ot2();
+
     if a == '2':
         print(history);
         print(Fore.YELLOW + 'Нажмите Enter, чтобы продолжить.');
+
     if a == '3':
-        os.system('cls');
+        system('cls');
         print(Fore.YELLOW + 'Выход...' + Style.RESET_ALL);
         f = open('rutranslit_history.txt', 'a+');
         f.write(history);
         f.close();
-        sys.close();
+        break;
+
     input();
-    os.system('cls');
+    system('cls');
