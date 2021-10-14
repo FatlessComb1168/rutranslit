@@ -45,7 +45,6 @@ try:
         t1 = input();
         t1 = split(r'( .)',t1);
 
-
         for i in t1:
             i2 = i;
             check = i.upper();
@@ -126,7 +125,6 @@ try:
             f.write(history);
             f.close();
             break;
-
         
         system('cls');
 except Exception as e:
