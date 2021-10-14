@@ -1,3 +1,3 @@
 @echo off
 
-pip install colorama && pip install pyperclip
+pip install pyperclip
